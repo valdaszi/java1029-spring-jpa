@@ -6,29 +6,26 @@ import java.util.List;
 
 @Entity
 @Table(name = "radars")
-public class Radar {
-    private Integer id;
+public class Radar extends Base {
     private LocalDateTime date;
+
+    @Column(length = 10)
     private String number;
+
     private double distance;
     private double time;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     private Driver driver;
-    private double speed;
-    private List<Comment> comments;
 
     @Transient
+    private double speed;
+
+    @OneToMany(mappedBy = "radar", cascade = CascadeType.ALL)
+    private List<Comment> comments;
+
     public double getSpeed() {
         return speed;
-    }
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
     }
 
     public LocalDateTime getDate() {
@@ -39,7 +36,6 @@ public class Radar {
         this.date = date;
     }
 
-    @Column(length = 10)
     public String getNumber() {
         return number;
     }
@@ -71,7 +67,6 @@ public class Radar {
 
     }
 
-    @ManyToOne(fetch = FetchType.EAGER)
     public Driver getDriver() {
         return driver;
     }
@@ -80,7 +75,6 @@ public class Radar {
         this.driver = driver;
     }
 
-    @OneToMany(mappedBy = "radar")
     public List<Comment> getComments() {
         return comments;
     }

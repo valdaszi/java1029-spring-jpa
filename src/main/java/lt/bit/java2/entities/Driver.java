@@ -1,9 +1,12 @@
 package lt.bit.java2.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AccessLevel;
 import lombok.Data;
+import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
@@ -30,16 +33,12 @@ import java.util.Set;
         query = "SELECT d FROM Driver d WHERE d.firstName = :name"
 )
 @Data
-public class Driver {
+public class Driver extends Base {
     public static final String QUERY_ALL = "query.driver.all";
     public static final String QUERY_BY_NAME = "query.driver.byName";
 
     public static final String GRAPH_RADARS = "graph.driver.radars";
     static final String GRAPH_RADARS_COMMENTS = GRAPH_RADARS + ".comments";
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
     @Column(length = 11)
     private String pid;
@@ -57,7 +56,7 @@ public class Driver {
     private Set<Radar> radars;
 
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "driver_address",
             joinColumns = @JoinColumn(name = "driver_id"),
             inverseJoinColumns = @JoinColumn(name = "address_id"))
@@ -78,4 +77,4 @@ public class Driver {
     public int hashCode() {
         return Objects.hash(id, pid, firstName, lastName);
     }
-}
+ }

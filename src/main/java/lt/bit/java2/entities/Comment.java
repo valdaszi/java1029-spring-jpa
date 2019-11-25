@@ -8,11 +8,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "comments")
 @Data
-public class Comment {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
-
+public class Comment extends Base {
     @Column(length = 2048)
     private String comment;
 

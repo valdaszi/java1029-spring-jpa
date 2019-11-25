@@ -9,10 +9,7 @@ import java.util.Set;
 @Entity
 @Table(name = "address")
 @Data
-public class Address {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+public class Address extends Base {
 
     private String city;
 

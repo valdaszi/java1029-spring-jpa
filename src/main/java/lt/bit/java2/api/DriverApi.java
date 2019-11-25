@@ -2,11 +2,14 @@ package lt.bit.java2.api;
 
 import lt.bit.java2.entities.Driver;
 import lt.bit.java2.repositories.DriverRepository;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.hibernate.StaleObjectStateException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.orm.ObjectOptimisticLockingFailureException;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -20,9 +23,48 @@ public class DriverApi {
     }
 
     @GetMapping("/{id}")
-    Optional<Driver> getDriverById(@PathVariable int id) {
+    ResponseEntity<Driver> getDriverById(@PathVariable int id) {
         Optional<Driver> driver = driverRepository.findById(id);
-        return driver;
+        if (driver.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        } else {
+            return ResponseEntity.ok(driver.get());
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    ResponseEntity deleteById(@PathVariable int id) {
+        if (driverRepository.existsById(id)) {
+            driverRepository.deleteById(id);
+            return ResponseEntity.status(HttpStatus.OK).build();
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+    }
+
+    @PostMapping
+    ResponseEntity<Driver> create(@RequestBody Driver driver) {
+        return ResponseEntity.ok(driverRepository.save(driver));
+    }
+
+    @PutMapping("/{id}")
+    ResponseEntity<Driver> update(@PathVariable int id, @RequestBody Driver driver) {
+        Optional<Driver> d = driverRepository.findById(id);
+        if (d.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+//        Driver drv = d.get();
+//        drv.setPid(driver.getPid());
+//        drv.setFirstName(driver.getFirstName());
+//        drv.setLastName(driver.getLastName());
+//        return ResponseEntity.ok(driverRepository.save(drv));
+
+        try {
+            driver.setId(id);
+            return ResponseEntity.ok(driverRepository.save(driver));
+        } catch (ObjectOptimisticLockingFailureException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
     }
 
 }
