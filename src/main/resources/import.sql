@@ -1,6 +1,14 @@
 INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '12345678901', 'Ona', 'Marija');
 INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '22222222222', 'Jonas', 'Petras');
 INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '33333333333', 'Jonas', 'Kazys');
+INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '4444', 'A', 'D');
+INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '5555', 'B', 'G');
+INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '666', 'C', 'T');
+INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '777', 'D', 'Y');
+INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '88888', 'E', 'H');
+INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '99999', 'F', 'X');
+INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '12121212', 'G', 'N');
+INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '4545454', 'S', 'B');
 
 INSERT INTO address(version, city) VALUES(0, "Babtai");
 INSERT INTO address(version, city) VALUES(0, "Balbieriskis");

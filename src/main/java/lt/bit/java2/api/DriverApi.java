@@ -3,6 +3,9 @@ package lt.bit.java2.api;
 import lt.bit.java2.entities.Driver;
 import lt.bit.java2.repositories.DriverRepository;
 import org.hibernate.StaleObjectStateException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -65,6 +68,17 @@ public class DriverApi {
         } catch (ObjectOptimisticLockingFailureException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
+    }
+
+    @GetMapping()
+    ResponseEntity<Page<Driver>> getPage(
+            @RequestParam(defaultValue = "10", required = false) int size,
+            @RequestParam(defaultValue = "1", required = false) int page) {
+        if (size < 3) size = 3;
+        if (page < 1) page = 1;
+        return ResponseEntity.ok(
+                driverRepository.findAll(PageRequest.of(page - 1, size))
+        );
     }
 
 }

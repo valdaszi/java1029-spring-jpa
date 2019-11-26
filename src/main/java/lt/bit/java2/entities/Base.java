@@ -1,9 +1,9 @@
 package lt.bit.java2.entities;
 
-import lombok.AccessLevel;
-import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Base {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    protected Integer id;
+    Integer id;
 
     @Version
     private int version;
@@ -43,6 +43,7 @@ public class Base {
         return updatedOn;
     }
 
+    // JPA annotations:
 //    @PrePersist
 //    void onCreate() {
 //        createdOn = updatedOn = LocalDateTime.now();
