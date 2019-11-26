@@ -11,11 +11,9 @@ function start() {
 }
 
 async function getPage(page, size) {
-//    var url = new URL('http://localhost:8080/api/driver');
-//    var params = {page: page, size: size};
-//    url.search = new URLSearchParams(params).toString();
     const response = await fetch(
-        `/api/driver?page=${page}&size=${size}`);
+        '/api/driver?' +
+        new URLSearchParams({page: page, size: size}));
     const res = await response.json();
     showPage(res);
 }
