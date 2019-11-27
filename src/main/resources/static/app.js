@@ -13,7 +13,7 @@ function start() {
 async function getPage(page, size) {
     const response = await fetch(
         '/api/driver?' +
-        new URLSearchParams({page: page, size: size}));
+        new URLSearchParams({page: page, 'size': size}));
     const res = await response.json();
     showPage(res);
 }
@@ -23,9 +23,10 @@ function showPage(page) {
     let table = `
         <table class="table">
             <tr>
-                <td>PID</td>
-                <td>First-name</td>
-                <td>Last-name</td>
+                <th>PID</th>
+                <th>First-name</th>
+                <th>Last-name</th>
+                <th>Actions</th>
             </tr>
     `;
     page.content.forEach(e => {
@@ -34,6 +35,10 @@ function showPage(page) {
                 <td>${e.pid}</td>
                 <td>${e.firstName}</td>
                 <td>${e.lastName}</td>
+                <td>
+                    <button class="btn btn-danger"
+                        onclick="remove(${e.id})">Delete</button>
+                </td>
             </tr>
         `;
     })
@@ -41,12 +46,15 @@ function showPage(page) {
     content.innerHTML = table;
 }
 
-function regActions() {
-    let bNext = document.getElementById('next');
-    bNext.onclick = onNextClick;
+function regOnclick(name, action) {
+    let elem = document.getElementById(name);
+    elem.onclick = action;
+}
 
-    let bPrev = document.getElementById('prev');
-    bPrev.onclick = onPrevClick;
+function regActions() {
+    regOnclick('next', onNextClick);
+    regOnclick('prev', onPrevClick);
+    regOnclick('save-changes', onSaveChangesClick);
 }
 
 function onNextClick(event) {
@@ -61,6 +69,61 @@ function onPrevClick(event) {
     if (currentPage > 1) {
         getPage(--currentPage, size);
     }
+}
+
+function onSaveChangesClick() {
+    const pid = document.getElementById('person-id').value;
+    const fname = document.getElementById('first-name').value;
+    const lname = document.getElementById('last-name').value;
+
+    saveDriver({
+        pid: pid,
+        firstName: fname,
+        lastName: lname
+    });
+
+    $('#new-driver').modal('hide');
+}
+
+async function saveDriver(driver) {
+    if (!driver.id) {
+        // create new
+        const response = await fetch(
+                '/api/driver',
+                {
+                     method: 'POST',
+                     headers: {
+                        'Content-Type': 'application/json'
+                     },
+                     body: JSON.stringify(driver)
+                }
+        );
+    } else {
+        // update
+        alert('Dar nera update metodo!!!!');
+    }
+    const res = await response.json();
+
+    document.getElementById('person-id').value = '';
+    document.getElementById('first-name').value = '';
+    document.getElementById('last-name').value = '';
+
+    getPage(currentPage, size);
+}
+
+function remove(id) {
+    //alert('Removing...' + id)
+    deleteById(id);
+}
+
+async function deleteById(id) {
+    const response = await fetch(
+        '/api/driver/' + id,
+        {
+             method: 'DELETE'
+        }
+    );
+    getPage(currentPage, size);
 }
 
 start();
