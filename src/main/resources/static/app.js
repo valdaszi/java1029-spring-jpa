@@ -38,6 +38,8 @@ function showPage(page) {
                 <td>
                     <button class="btn btn-danger"
                         onclick="remove(${e.id})">Delete</button>
+                    <button class="btn btn-info"
+                        onclick="update(${e.id})">Edit</button>
                 </td>
             </tr>
         `;
@@ -72,11 +74,13 @@ function onPrevClick(event) {
 }
 
 function onSaveChangesClick() {
+    const id = document.getElementById('id').value;
     const pid = document.getElementById('person-id').value;
     const fname = document.getElementById('first-name').value;
     const lname = document.getElementById('last-name').value;
 
     saveDriver({
+        id: id,
         pid: pid,
         firstName: fname,
         lastName: lname
@@ -88,22 +92,32 @@ function onSaveChangesClick() {
 async function saveDriver(driver) {
     if (!driver.id) {
         // create new
-        const response = await fetch(
-                '/api/driver',
-                {
-                     method: 'POST',
-                     headers: {
-                        'Content-Type': 'application/json'
-                     },
-                     body: JSON.stringify(driver)
-                }
+        response = await fetch(
+            '/api/driver',
+            {
+                 method: 'POST',
+                 headers: {
+                    'Content-Type': 'application/json'
+                 },
+                 body: JSON.stringify(driver)
+            }
         );
     } else {
         // update
-        alert('Dar nera update metodo!!!!');
+        response = await fetch(
+            '/api/driver/' + driver.id,
+            {
+                 method: 'PUT',
+                 headers: {
+                    'Content-Type': 'application/json'
+                 },
+                 body: JSON.stringify(driver)
+            }
+        );
     }
     const res = await response.json();
 
+    document.getElementById('id').value = '';
     document.getElementById('person-id').value = '';
     document.getElementById('first-name').value = '';
     document.getElementById('last-name').value = '';
@@ -124,6 +138,22 @@ async function deleteById(id) {
         }
     );
     getPage(currentPage, size);
+}
+
+function update(id) {
+    readDriver(id);
+}
+
+async function readDriver(id) {
+    const response = await fetch('/api/driver/' + id);
+    const driver = await response.json();
+
+    document.getElementById('id').value = driver.id;
+    document.getElementById('person-id').value = driver.pid;
+    document.getElementById('first-name').value = driver.firstName;
+    document.getElementById('last-name').value = driver.lastName;
+
+    $('#new-driver').modal('show');
 }
 
 start();
