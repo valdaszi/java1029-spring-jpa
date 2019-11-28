@@ -125,12 +125,7 @@ async function saveDriver(driver) {
     getPage(currentPage, size);
 }
 
-function remove(id) {
-    //alert('Removing...' + id)
-    deleteById(id);
-}
-
-async function deleteById(id) {
+async function remove(id) {
     const response = await fetch(
         '/api/driver/' + id,
         {
@@ -140,11 +135,7 @@ async function deleteById(id) {
     getPage(currentPage, size);
 }
 
-function update(id) {
-    readDriver(id);
-}
-
-async function readDriver(id) {
+async function update(id) {
     const response = await fetch('/api/driver/' + id);
     const driver = await response.json();
 
