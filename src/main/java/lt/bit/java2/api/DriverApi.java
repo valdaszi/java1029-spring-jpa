@@ -81,4 +81,14 @@ public class DriverApi {
         );
     }
 
+    @GetMapping("/find-by-pid/{pid}")
+    Driver findByPid(@PathVariable String pid) {
+        return driverRepository.findByPid(pid);
+    }
+
+    @GetMapping("/find-by-lastname/{lastname}")
+    List<Driver> findByLastName(@PathVariable String lastname) {
+        return driverRepository.findByLastName(lastname);
+    }
+
 }

@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
@@ -57,6 +59,18 @@ public class DriverController {
         modelAndView.addAllObjects(modelMap);
 
         return modelAndView;
+    }
+
+    @GetMapping("/delete")
+    RedirectView deleteById(
+            @RequestParam int id,
+            @RequestParam(defaultValue = "10", required = false) int size,
+            @RequestParam(defaultValue = "1", required = false) int page,
+            RedirectAttributes attributes) {
+        driverRepository.deleteById(id);
+        attributes.addAttribute("size", size);
+        attributes.addAttribute("page", page);
+        return new RedirectView("/mvc/driver/list");
     }
 }
 

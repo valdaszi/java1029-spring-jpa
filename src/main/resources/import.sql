@@ -6,9 +6,9 @@ INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '5555', 'B',
 INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '666', 'C', 'T');
 INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '777', 'D', 'Y');
 INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '88888', 'E', 'H');
-INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '99999', 'F', 'X');
-INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '12121212', 'G', 'N');
-INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '4545454', 'S', 'B');
+INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '9', 'F', 'X');
+INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '9', 'G', 'N');
+INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '4545454', 'S', 'X');
 
 INSERT INTO address(version, city) VALUES(0, "Babtai");
 INSERT INTO address(version, city) VALUES(0, "Balbieriskis");
