@@ -30,14 +30,7 @@ public class DriverController {
 
     @GetMapping("/{id}")
     String getDriver(@PathVariable int id, ModelMap model) {
-        model.addAttribute("firstName", "Jonas");
-        model.addAttribute("id", id);
-
-        MyClass myClass = new MyClass();
-        myClass.setA(123);
-        myClass.setB("A456");
-        model.addAttribute("my", myClass);
-
+        model.addAttribute("driver", driverRepository.getOne(id));
         return "driver";
     }
 

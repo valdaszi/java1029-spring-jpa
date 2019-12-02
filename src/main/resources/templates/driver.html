@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>Driver</title>
@@ -7,13 +7,27 @@
 </head>
 <body>
     <div class="container">
-        <h1>Driver
-            <span th:text="${firstName}">Name</span>
-            <span th:text="${id}">123</span>
-        </h1>
+        <h1>Driver #<span class="font-weight-bold" th:text="${driver.id}">123</span></h1>
 
-        <p th:text="${my.a}">a</p>
-        <p th:text="${my.b}">b</p>
+        <div class="row">
+            <div class="col-md-3">Person ID</div>
+            <div class="col-md-9 font-weight-bold" th:text="${driver.pid}"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">First name</div>
+            <div class="col-md-9 font-weight-bold" th:text="${driver.firstName}"></div>
+        </div>
+        <div class="row">
+            <div class="col-md-3">Last name</div>
+            <div class="col-md-9 font-weight-bold" th:text="${driver.lastName}"></div>
+        </div>
+
+        <div>
+            <a class="btn btn-danger"
+               data-th-href="@{/mvc/driver/delete(id=${driver.id})}">Delete</a>
+            <a class="btn btn-warning"
+               data-th-href="@{/mvc/driver/edit-form(id=${driver.id})}">Edit</a>
+        </div>
     </div>
 </body>
 </html>
