@@ -5,17 +5,18 @@ import lt.bit.java2.repositories.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -42,10 +43,27 @@ public class DriverController {
 
     @GetMapping("/list")
     ModelAndView getDrivers(
-            @RequestParam(defaultValue = "10", required = false) int size,
-            @RequestParam(defaultValue = "1", required = false) int page) {
-        if (size < 3) size = 3;
+            @RequestParam(defaultValue = "0", required = false) int size,
+            @RequestParam(defaultValue = "0", required = false) int page,
+            HttpServletRequest request, HttpServletResponse response) {
+
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (page <= 0 && cookie.getName().equals("page")) {
+                    page = Integer.parseInt(cookie.getValue());
+                }
+                if (size <= 0 && cookie.getName().equals("size")) {
+                    size = Integer.parseInt(cookie.getValue());
+                }
+            }
+        }
+
+        if (size < 1) size = 10;
         if (page < 1) page = 1;
+
+        response.addCookie(new Cookie("size", String.valueOf(size)));
+        response.addCookie(new Cookie("page", String.valueOf(page)));
 
         Page<Driver> driverPage = driverRepository.findAll(PageRequest.of(page - 1, size));
 
@@ -70,6 +88,20 @@ public class DriverController {
         driverRepository.deleteById(id);
         attributes.addAttribute("size", size);
         attributes.addAttribute("page", page);
+        return new RedirectView("/mvc/driver/list");
+    }
+
+    @GetMapping("/edit-form")
+    String editForm(@RequestParam int id, ModelMap modelMap) {
+        Driver driver = driverRepository.getOne(id);
+        modelMap.addAttribute("driver", driver);
+        return "edit-form";
+    }
+
+    @PostMapping(value = "/edit-form",
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    RedirectView saveEdit(Driver driver) {
+        driverRepository.save(driver);
         return new RedirectView("/mvc/driver/list");
     }
 }

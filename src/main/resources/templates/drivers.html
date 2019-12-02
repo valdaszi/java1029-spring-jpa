@@ -31,6 +31,8 @@
                 <td>
                     <a class="btn btn-danger"
                        data-th-href="@{/mvc/driver/delete(id=${driver.id},size=${driverPage.size},page=${driverPage.number+1})}">Delete</a>
+                    <a class="btn btn-warning"
+                       data-th-href="@{/mvc/driver/edit-form(id=${driver.id})}">Edit</a>
                 </td>
             </tr>
         </tbody>

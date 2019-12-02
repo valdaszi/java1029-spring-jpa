@@ -38,7 +38,7 @@ public class Driver extends Base {
     public static final String QUERY_BY_NAME = "query.driver.byName";
 
     public static final String GRAPH_RADARS = "graph.driver.radars";
-    static final String GRAPH_RADARS_COMMENTS = GRAPH_RADARS + ".comments";
+    static final String GRAPH_RADARS_COMMENTS = "graph.driver.radars.comments";
 
     @Column(length = 11)
     private String pid;
