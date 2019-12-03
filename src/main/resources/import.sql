@@ -27,3 +27,4 @@ INSERT INTO comments(version, radar_id, date, comment) VALUES (0, 1, '2019-01-15
 INSERT INTO comments(version, radar_id, date, comment) VALUES (0, 1, '2019-01-16 10:00:00', 'Atrodo radau');
 INSERT INTO comments(version, radar_id, date, comment) VALUES (0, 2, '2019-01-15 13:00:00', 'Nepilnametis vairuorojas');
 
+INSERT INTO accounts(email, name, password) VALUES ('jonas@firma.lt', 'Jonas', 'qwerty');
