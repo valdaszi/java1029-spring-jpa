@@ -10,7 +10,14 @@ import javax.persistence.*;
 public class Account {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
     private String name;
     private String password;
+
+    private String role;
 }

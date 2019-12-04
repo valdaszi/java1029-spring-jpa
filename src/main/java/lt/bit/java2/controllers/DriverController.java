@@ -1,5 +1,7 @@
 package lt.bit.java2.controllers;
 
+import lt.bit.java2.ann.Auth;
+import lt.bit.java2.entities.Account;
 import lt.bit.java2.entities.Driver;
 import lt.bit.java2.repositories.DriverRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,6 +31,7 @@ public class DriverController {
     @Autowired
     private DriverRepository driverRepository;
 
+    @Auth("MANAGER")
     @GetMapping("/{id}")
     String getDriver(@PathVariable int id, ModelMap model) {
         model.addAttribute("driver", driverRepository.getOne(id));
@@ -39,6 +43,11 @@ public class DriverController {
             @RequestParam(defaultValue = "0", required = false) int size,
             @RequestParam(defaultValue = "0", required = false) int page,
             HttpServletRequest request, HttpServletResponse response) {
+
+//        HttpSession session = request.getSession(false);
+//        if (session == null || !(session.getAttribute("user") instanceof Account)) {
+//            return new ModelAndView("redirect:/mvc/auth/login");
+//        }
 
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
@@ -64,6 +73,8 @@ public class DriverController {
         modelMap.put("title", "Drivers");
         modelMap.put("time", LocalDateTime.now());
         modelMap.put("driverPage", driverPage);
+//        modelMap.put("username", ((Account)session.getAttribute("user")).getName());
+
 
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("drivers");
@@ -72,6 +83,7 @@ public class DriverController {
         return modelAndView;
     }
 
+    @Auth("MANAGER")
     @GetMapping("/delete")
     RedirectView deleteById(
             @RequestParam int id,
@@ -84,6 +96,7 @@ public class DriverController {
         return new RedirectView("/mvc/driver/list");
     }
 
+    @Auth({"BOSS", "MANAGER"})
     @GetMapping("/edit-form")
     String editForm(@RequestParam int id, ModelMap modelMap) {
         Driver driver = driverRepository.getOne(id);
@@ -91,6 +104,7 @@ public class DriverController {
         return "edit-form";
     }
 
+    @Auth({"BOSS", "MANAGER"})
     @PostMapping(value = "/edit-form",
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     RedirectView saveEdit(Driver driver) {
