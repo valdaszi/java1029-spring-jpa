@@ -13,8 +13,8 @@ public class MVCConfigurator implements WebMvcConfigurer {
     @Autowired
     private AuthInterceptor authInterceptor;
 
-    @Override
-    public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(authInterceptor);
-    }
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(authInterceptor);
+//    }
 }

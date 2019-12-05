@@ -22,22 +22,22 @@ public class LoginController {
     @Autowired
     private AccountRepository accountRepository;
 
-    @GetMapping("/login")
-    String login() {
-        return "login";
-    }
-
-    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-    RedirectView loginAction(@RequestParam String username,
-                             @RequestParam String password,
-                             HttpServletRequest httpRequest) {
-        Account account = accountRepository.findByEmail(username);
-        if (account == null || !account.getPassword().equals(password)) {
-            return new RedirectView("/mvc/auth/login");
-        }
-        // sukuriam sesija
-        HttpSession session = httpRequest.getSession();
-        session.setAttribute("user", account);
-        return new RedirectView("/mvc/driver/list");
-    }
+//    @GetMapping("/login")
+//    String login() {
+//        return "login";
+//    }
+//
+//    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+//    RedirectView loginAction(@RequestParam String username,
+//                             @RequestParam String password,
+//                             HttpServletRequest httpRequest) {
+//        Account account = accountRepository.findByEmail(username);
+//        if (account == null || !account.getPassword().equals(password)) {
+//            return new RedirectView("/mvc/auth/login");
+//        }
+//        // sukuriam sesija
+//        HttpSession session = httpRequest.getSession();
+//        session.setAttribute("user", account);
+//        return new RedirectView("/mvc/driver/list");
+//    }
 }
