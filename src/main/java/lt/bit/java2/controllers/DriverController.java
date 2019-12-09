@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,13 +33,15 @@ public class DriverController {
     @Autowired
     private DriverRepository driverRepository;
 
-    @Auth("MANAGER")
+    //@Auth("MANAGER")
+    @RolesAllowed("USER")
     @GetMapping("/{id}")
     String getDriver(@PathVariable int id, ModelMap model) {
         model.addAttribute("driver", driverRepository.getOne(id));
         return "driver";
     }
 
+    @PermitAll
     @GetMapping("/list")
     ModelAndView getDrivers(
             @RequestParam(defaultValue = "0", required = false) int size,
@@ -83,7 +87,8 @@ public class DriverController {
         return modelAndView;
     }
 
-    @Auth("MANAGER")
+    // @Auth("MANAGER")
+    @RolesAllowed("ADMIN")
     @GetMapping("/delete")
     RedirectView deleteById(
             @RequestParam int id,
@@ -96,7 +101,8 @@ public class DriverController {
         return new RedirectView("/mvc/driver/list");
     }
 
-    @Auth({"BOSS", "MANAGER"})
+    // @Auth({"BOSS", "MANAGER"})
+    @RolesAllowed("USER")
     @GetMapping("/edit-form")
     String editForm(@RequestParam int id, ModelMap modelMap) {
         Driver driver = driverRepository.getOne(id);
@@ -104,7 +110,8 @@ public class DriverController {
         return "edit-form";
     }
 
-    @Auth({"BOSS", "MANAGER"})
+    // @Auth({"BOSS", "MANAGER"})
+    @RolesAllowed("USER")
     @PostMapping(value = "/edit-form",
             consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     RedirectView saveEdit(Driver driver) {

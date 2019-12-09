@@ -27,6 +27,6 @@ INSERT INTO comments(version, radar_id, date, comment) VALUES (0, 1, '2019-01-15
 INSERT INTO comments(version, radar_id, date, comment) VALUES (0, 1, '2019-01-16 10:00:00', 'Atrodo radau');
 INSERT INTO comments(version, radar_id, date, comment) VALUES (0, 2, '2019-01-15 13:00:00', 'Nepilnametis vairuorojas');
 
-INSERT INTO accounts(email, name, password, role) VALUES ('boss@b.lt', 'Jonas', 'q', 'BOSS');
+INSERT INTO accounts(email, name, password, role) VALUES ('boss@b.lt', 'Jonas', '$2a$10$7aKGODZ1Hc.zXvzTrQvIOufW.1AbfBLeNj5s3IsJptOR.2NmwnECS', 'USER');
 INSERT INTO accounts(email, name, password, role) VALUES ('z@b.lt', 'Zose', 'q', 'MANAGER');
-INSERT INTO accounts(email, name, password, role) VALUES ('a@b.lt', 'Aminas', 'q', 'ADMIN');
+INSERT INTO accounts(email, name, password, role) VALUES ('a@b.lt', 'Aminas', '$2a$10$jjG1dZc8HwEZmP5nM3CLqO0qGqc7yiIvI78l5DQnEEtoqG0mLg9WG', 'ADMIN');

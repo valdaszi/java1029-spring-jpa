@@ -20,4 +20,7 @@ public class Account {
     private String password;
 
     private String role;
+
+    @Column
+    private Boolean disabled;
 }
