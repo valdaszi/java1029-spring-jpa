@@ -32,12 +32,12 @@ public class AuthInterceptor extends HandlerInterceptorAdapter {
                 }
                 Object acc = session.getAttribute("user");
                 Account account = acc instanceof Account ? (Account)acc : null;
-                if (!"ADMIN".equals(account.getRole()) &&
-                        auth.value().length > 0 &&
-                        !Arrays.asList(auth.value()).contains(account.getRole())) {
-                    response.sendRedirect("/mvc/auth/login");
-                    return false;
-                }
+//                if (!"ADMIN".equals(account.getRole()) &&
+//                        auth.value().length > 0 &&
+//                        !Arrays.asList(auth.value()).contains(account.getRole())) {
+//                    response.sendRedirect("/mvc/auth/login");
+//                    return false;
+//                }
 
             } else {
                 System.out.println("Nera Auth!!!");

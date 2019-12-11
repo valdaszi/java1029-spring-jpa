@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -25,16 +26,18 @@ public class DriverApi {
         this.driverRepository = driverRepository;
     }
 
+    @RolesAllowed("DRIVER_READ")
     @GetMapping("/{id}")
     ResponseEntity<Driver> getDriverById(@PathVariable int id) {
         Optional<Driver> driver = driverRepository.findById(id);
-        if (driver.isEmpty()) {
+        if (!driver.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         } else {
             return ResponseEntity.ok(driver.get());
         }
     }
 
+    @RolesAllowed("DRIVER_WRITE")
     @DeleteMapping("/{id}")
     ResponseEntity deleteById(@PathVariable int id) {
         if (driverRepository.existsById(id)) {
@@ -45,15 +48,17 @@ public class DriverApi {
         }
     }
 
+    @RolesAllowed("DRIVER_WRITE")
     @PostMapping
     ResponseEntity<Driver> create(@RequestBody Driver driver) {
         return ResponseEntity.ok(driverRepository.save(driver));
     }
 
+    @RolesAllowed("DRIVER_WRITE")
     @PutMapping("/{id}")
     ResponseEntity<Driver> update(@PathVariable int id, @RequestBody Driver driver) {
         Optional<Driver> d = driverRepository.findById(id);
-        if (d.isEmpty()) {
+        if (!d.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
 //        Driver drv = d.get();
@@ -70,6 +75,7 @@ public class DriverApi {
         }
     }
 
+    // @RolesAllowed("DRIVER_READ")
     @GetMapping()
     ResponseEntity<Page<Driver>> getPage(
             @RequestParam(defaultValue = "10", required = false) int size,
@@ -81,11 +87,14 @@ public class DriverApi {
         );
     }
 
+
+    @RolesAllowed("DRIVER_READ")
     @GetMapping("/find-by-pid/{pid}")
     Driver findByPid(@PathVariable String pid) {
         return driverRepository.findByPid(pid);
     }
 
+    @RolesAllowed("DRIVER_READ")
     @GetMapping("/find-by-lastname/{lastname}")
     List<Driver> findByLastName(@PathVariable String lastname) {
         return driverRepository.findByLastName(lastname);

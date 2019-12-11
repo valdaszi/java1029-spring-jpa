@@ -1,4 +1,4 @@
-INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '12345678901', 'Ona', 'Marija');
+INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '12345678901', 'Onė', 'Marija');
 INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '22222222222', 'Jonas', 'Petras');
 INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '33333333333', 'Jonas', 'Kazys');
 INSERT INTO drivers(version, pid, first_name, last_name) VALUES (0, '4444', 'A', 'D');
@@ -27,6 +27,29 @@ INSERT INTO comments(version, radar_id, date, comment) VALUES (0, 1, '2019-01-15
 INSERT INTO comments(version, radar_id, date, comment) VALUES (0, 1, '2019-01-16 10:00:00', 'Atrodo radau');
 INSERT INTO comments(version, radar_id, date, comment) VALUES (0, 2, '2019-01-15 13:00:00', 'Nepilnametis vairuorojas');
 
-INSERT INTO accounts(email, name, password, role) VALUES ('boss@b.lt', 'Jonas', '$2a$10$7aKGODZ1Hc.zXvzTrQvIOufW.1AbfBLeNj5s3IsJptOR.2NmwnECS', 'USER');
-INSERT INTO accounts(email, name, password, role) VALUES ('z@b.lt', 'Zose', 'q', 'MANAGER');
-INSERT INTO accounts(email, name, password, role) VALUES ('a@b.lt', 'Aminas', '$2a$10$jjG1dZc8HwEZmP5nM3CLqO0qGqc7yiIvI78l5DQnEEtoqG0mLg9WG', 'ADMIN');
+INSERT INTO privileges(name, description) VALUES ("DRIVER_READ", "Can read driver info");
+INSERT INTO privileges(name, description) VALUES ("DRIVER_WRITE", "Can create, update and delete driver");
+INSERT INTO privileges(name, description) VALUES ("RADAR_READ", "Radar read");
+INSERT INTO privileges(name, description) VALUES ("RADAR_WRITE", "Radar write");
+
+INSERT INTO roles(name, description) VALUES ("ADMIN", "System administrator");
+INSERT INTO roles(name, description) VALUES ("MANAGER", "manager");
+INSERT INTO roles(name, description) VALUES ("BOSS", ":)");
+INSERT INTO roles(name, description) VALUES ("EDITOR", "Editor");
+
+INSERT INTO roles_privileges(role_id, privilege_id) VALUES ("MANAGER", "DRIVER_READ");
+INSERT INTO roles_privileges(role_id, privilege_id) VALUES ("MANAGER", "DRIVER_WRITE");
+INSERT INTO roles_privileges(role_id, privilege_id) VALUES ("MANAGER", "RADAR_READ");
+INSERT INTO roles_privileges(role_id, privilege_id) VALUES ("MANAGER", "DRIVER_WRITE");
+
+INSERT INTO roles_privileges(role_id, privilege_id) VALUES ("BOSS", "DRIVER_READ");
+INSERT INTO roles_privileges(role_id, privilege_id) VALUES ("BOSS", "RADAR_READ");
+
+INSERT INTO accounts(email, name, password) VALUES ('boss@b.lt', 'Jonas', '$2a$10$7aKGODZ1Hc.zXvzTrQvIOufW.1AbfBLeNj5s3IsJptOR.2NmwnECS'); -- , 'USER');
+INSERT INTO accounts(email, name, password) VALUES ('z@b.lt', 'Zosė', 'q'); -- , 'MANAGER');
+INSERT INTO accounts(email, name, password) VALUES ('a@b.lt', 'Aminas', '$2a$10$jjG1dZc8HwEZmP5nM3CLqO0qGqc7yiIvI78l5DQnEEtoqG0mLg9WG'); -- , 'ADMIN');
+
+INSERT INTO users_roles(account_id, role_id) VALUES(1, 'BOSS');
+INSERT INTO users_roles(account_id, role_id) VALUES(2, 'MANAGER');
+INSERT INTO users_roles(account_id, role_id) VALUES(3, 'MANAGER');
+INSERT INTO users_roles(account_id, role_id) VALUES(3, 'ADMIN');

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.util.MultiValueMap;
@@ -87,8 +89,11 @@ public class DriverController {
         return modelAndView;
     }
 
-    // @Auth("MANAGER")
-    @RolesAllowed("ADMIN")
+    // @Auth("ADMIN")
+    // @RolesAllowed("ADMIN")
+    // @Secured("ROLE_ADMIN")
+    // @PreAuthorize("hasRole('ROLE_ADMIN') or hasAuthority('DRIVER_WRITE')")
+    @RolesAllowed("DRIVER_WRITE")
     @GetMapping("/delete")
     RedirectView deleteById(
             @RequestParam int id,

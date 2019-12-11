@@ -3,6 +3,7 @@ package lt.bit.java2.entities;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "accounts")
@@ -19,8 +20,15 @@ public class Account {
     private String name;
     private String password;
 
-    private String role;
+//    private String role;
 
-    @Column
     private Boolean disabled;
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+        name = "users_roles",
+        joinColumns = { @JoinColumn(name = "account_id") },
+        inverseJoinColumns = { @JoinColumn(name = "role_id") }
+    )
+    private List<Role> roles;
 }
