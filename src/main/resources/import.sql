@@ -47,7 +47,7 @@ INSERT INTO roles_privileges(role_id, privilege_id) VALUES ("BOSS", "RADAR_READ"
 
 INSERT INTO accounts(email, name, password) VALUES ('boss@b.lt', 'Jonas', '$2a$10$7aKGODZ1Hc.zXvzTrQvIOufW.1AbfBLeNj5s3IsJptOR.2NmwnECS'); -- , 'USER');
 INSERT INTO accounts(email, name, password) VALUES ('z@b.lt', 'Zosė', 'q'); -- , 'MANAGER');
-INSERT INTO accounts(email, name, password) VALUES ('a@b.lt', 'Aminas', '$2a$10$jjG1dZc8HwEZmP5nM3CLqO0qGqc7yiIvI78l5DQnEEtoqG0mLg9WG'); -- , 'ADMIN');
+INSERT INTO accounts(email, name, password) VALUES ('a@b.lt', 'Adminas', '$2a$10$jjG1dZc8HwEZmP5nM3CLqO0qGqc7yiIvI78l5DQnEEtoqG0mLg9WG'); -- , 'ADMIN');
 
 INSERT INTO users_roles(account_id, role_id) VALUES(1, 'BOSS');
 INSERT INTO users_roles(account_id, role_id) VALUES(2, 'MANAGER');

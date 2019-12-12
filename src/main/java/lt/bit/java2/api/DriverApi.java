@@ -75,7 +75,7 @@ public class DriverApi {
         }
     }
 
-    // @RolesAllowed("DRIVER_READ")
+    @RolesAllowed("DRIVER_READ")
     @GetMapping()
     ResponseEntity<Page<Driver>> getPage(
             @RequestParam(defaultValue = "10", required = false) int size,

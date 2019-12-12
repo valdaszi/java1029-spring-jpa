@@ -40,6 +40,7 @@ public class AuthApi {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
 
+            // Cia esame jei viskas OK
             String token = jwtTokenService.build(userDetails);
             return ResponseEntity.ok(Collections.singletonMap("token", token));
 

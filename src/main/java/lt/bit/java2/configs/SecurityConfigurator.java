@@ -1,5 +1,6 @@
 package lt.bit.java2.configs;
 
+import lt.bit.java2.api.JwtTokenFilter;
 import lt.bit.java2.entities.Account;
 import lt.bit.java2.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -101,7 +104,7 @@ public class SecurityConfigurator extends WebSecurityConfigurerAdapter {
 
                 @Override
                 public String getUsername() {
-                    return account.getEmail();
+                    return account.getName();
                 }
 
                 @Override
@@ -139,12 +142,19 @@ class SecureConfig {
     @Configuration
     @Order(1)
     static class ApiConfigurerAdapter extends WebSecurityConfigurerAdapter {
+
+        @Resource // sinonimas @Autowire
+        private JwtTokenFilter jwtTokenFilter;
+
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http.antMatcher("/api/**")
                     .csrf().disable()
                     .authorizeRequests()
-                    .anyRequest().permitAll();
+                    .anyRequest().permitAll()
+                    .and()
+                    .addFilterBefore(jwtTokenFilter, UsernamePasswordAuthenticationFilter.class)
+            ;
         }
     }
 
