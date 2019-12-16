@@ -164,7 +164,11 @@ class SecureConfig {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
+                    .csrf().disable()
+
                     .authorizeRequests()
+                    .antMatchers("/images/**").permitAll()
+                    .antMatchers("/mvc/upload").permitAll()
                     .antMatchers("/mvc/driver/list").permitAll()
                     .anyRequest().authenticated()
 
