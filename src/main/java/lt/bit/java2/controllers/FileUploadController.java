@@ -8,10 +8,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.security.PermitAll;
 import java.io.File;
 import java.io.IOException;
 import java.util.UUID;
+
+/*
+ * https://spring.io/guides/gs/uploading-files/
+ */
 
 @Controller
 @RequestMapping("/mvc/upload")

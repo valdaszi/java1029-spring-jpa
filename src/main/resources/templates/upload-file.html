@@ -8,6 +8,8 @@
 <body class="jumbotron">
 <img src="/images/1df0fafb-9063-46d0-a1dc-ed40ed07e7b7">
 <form class="form-upload" method="POST" enctype="multipart/form-data">
+    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
     <h1 class="h3 mb-3 font-weight-normal">File upload</h1>
     <label for="inputFile" class="sr-only">File</label>
     <input name="file" type="file" id="inputFile" class="form-control" placeholder="Select file to upload" required autofocus>

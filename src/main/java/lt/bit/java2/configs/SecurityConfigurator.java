@@ -164,7 +164,10 @@ class SecureConfig {
         @Override
         protected void configure(HttpSecurity http) throws Exception {
             http
-                    .csrf().disable()
+                    // .csrf().disable()
+                    // - galima csrf naudoti, tik tada reikia kad su POST uzklausiomis ateitu atitinkamas csrf laukas.
+                    // Jei naudojame thymeleaf tai reiktu i forma ideti:
+                    // <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 
                     .authorizeRequests()
                     .antMatchers("/images/**").permitAll()
